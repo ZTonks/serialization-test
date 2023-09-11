@@ -6,16 +6,13 @@
 	<OutputType>Exe</OutputType>
   </PropertyGroup>
 <ItemGroup>
-	<PackageReference Include="Enable.Extensions.Configuration" Version="1.1.0" />
-	<PackageReference Include="Enable.Logging.Extensions" Version="2022.11.2.2-main" />
-	<PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.21.0" />
 	<PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.19.0" />
 	<PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="1.0.0" />
 	<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ServiceBus" Version="5.13.0" />
-	<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs" Version="6.1.0" />
+	<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs" Version="6.2.0" />
 	<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" Version="4.2.0" />
 	<PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.14.1" />
-	<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.DurableTask" Version="1.0.2" />
+	<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.DurableTask" Version="1.0.3" />
 </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

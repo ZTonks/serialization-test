@@ -15,7 +15,7 @@ namespace serialization_test
         public async Task DoSomething(
             [OrchestrationTrigger] TaskOrchestrationContext context)
         {
-            await context.WaitForExternalEvent<MyObject>("FOO");
+            var foo = await context.WaitForExternalEvent<MyObject>("FOO");
 
             await context.CreateTimer(
                 context.CurrentUtcDateTime.Add(TimeSpan.FromSeconds(15)),

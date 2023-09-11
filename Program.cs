@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Enable.Extensions.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,15 +15,11 @@ namespace serialization_test
                 .AddEnvironmentVariables()
                 .Build();
 
-            var isDevelopment = Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT") == "Development";
-
-            if (isDevelopment)
-            {
-                configuration.ApplyDevelopmentOverrides();
-            }
-
             var host = new HostBuilder()
-                .ConfigureFunctionsWorkerDefaults()
+                .ConfigureFunctionsWorkerDefaults(c =>
+                {
+                    c.Serializer = new MySerializer();
+                })
                 .ConfigureServices(serviceCollection =>
                 {
                     serviceCollection
