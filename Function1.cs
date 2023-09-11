@@ -1,22 +1,21 @@
 using System;
 using System.Threading.Tasks;
-using Microsoft.Azure.Functions.Worker;
-using Microsoft.DurableTask;
-using Microsoft.DurableTask.Client;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 
 namespace serialization_test
 {
     public class Function1
     {
-        [Function("Function1")]
+        [FunctionName("Function1")]
         public async Task Run(
             [TimerTrigger("*/5 * * * * *")]TimerInfo myTimer,
             ILogger log,
-            [DurableClient] DurableTaskClient durableTaskClient)
+            [DurableClient] IDurableOrchestrationClient durableTaskClient)
         {
             var instanceId = "BAR";
-            var durableOrchestrationStatus = await durableTaskClient.GetInstanceAsync("BAR");
+            var durableOrchestrationStatus = await durableTaskClient.GetStatusAsync("BAR");
 
             switch (durableOrchestrationStatus)
             {
@@ -24,12 +23,12 @@ namespace serialization_test
                 case { RuntimeStatus: OrchestrationRuntimeStatus.Completed }:
                 case { RuntimeStatus: OrchestrationRuntimeStatus.Failed }:
                 case { RuntimeStatus: OrchestrationRuntimeStatus.Terminated }:
-                    await durableTaskClient.ScheduleNewOrchestrationInstanceAsync(
+                    await durableTaskClient.StartNewAsync(
                         nameof(MyOchrestration.DoSomething),
-                        new StartOrchestrationOptions(instanceId));
+                        instanceId);
                     break;
                 case { RuntimeStatus: OrchestrationRuntimeStatus.Suspended }:
-                    await durableTaskClient.ResumeInstanceAsync(instanceId);
+                    await durableTaskClient.ResumeAsync(instanceId, "lol");
                     break;
                 case { RuntimeStatus: OrchestrationRuntimeStatus.Pending }:
                 case { RuntimeStatus: OrchestrationRuntimeStatus.Running }:
@@ -41,7 +40,7 @@ namespace serialization_test
             await durableTaskClient.RaiseEventAsync(
                 instanceId,
                 "FOO",
-                eventPayload: new MyObject() {  Bar = 4, Foo = "HELLO" });
+                eventData: new MyObject() {  Bar = 4, Foo = "HELLO" });
         }
     }
 }

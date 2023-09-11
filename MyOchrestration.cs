@@ -1,5 +1,5 @@
-﻿using Microsoft.Azure.Functions.Worker;
-using Microsoft.DurableTask;
+﻿using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using System;
 using System.Threading.Tasks;
 
@@ -11,17 +11,17 @@ namespace serialization_test
         {
         }
 
-        [Function(nameof(DoSomething))]
+        [FunctionName(nameof(DoSomething))]
         public async Task DoSomething(
-            [OrchestrationTrigger] TaskOrchestrationContext context)
+            [OrchestrationTrigger] IDurableOrchestrationContext context)
         {
             await context.WaitForExternalEvent<MyObject>("FOO");
 
             await context.CreateTimer(
                 context.CurrentUtcDateTime.Add(TimeSpan.FromSeconds(15)),
-                cancellationToken: default);
+                cancelToken: default);
 
-            context.ContinueAsNew(preserveUnprocessedEvents: true);
+            context.ContinueAsNew(null, preserveUnprocessedEvents: true);
         }
     }
 }
