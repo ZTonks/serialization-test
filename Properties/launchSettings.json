@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "serialization_test": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7146",
+      "launchBrowser": false
+    }
+  }
+}
