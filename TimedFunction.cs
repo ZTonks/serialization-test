@@ -6,9 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace serialization_test
 {
-    public class Function1
+    public class TimedFunction
     {
-        [FunctionName("Function1")]
+        [FunctionName(nameof(TimedFunction))]
         public async Task Run(
             [TimerTrigger("*/5 * * * * *")]TimerInfo myTimer,
             ILogger log,
@@ -24,7 +24,7 @@ namespace serialization_test
                 case { RuntimeStatus: OrchestrationRuntimeStatus.Failed }:
                 case { RuntimeStatus: OrchestrationRuntimeStatus.Terminated }:
                     await durableTaskClient.StartNewAsync(
-                        nameof(MyOchrestration.DoSomething),
+                        nameof(MyOrchestration.DoSomething),
                         instanceId);
                     break;
                 case { RuntimeStatus: OrchestrationRuntimeStatus.Suspended }:
