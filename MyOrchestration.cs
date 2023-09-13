@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace serialization_test
 {
-    public class MyOchrestration
+    public class MyOrchestration
     {
-        public MyOchrestration()
+        public MyOrchestration()
         {
         }
 
